@@ -1,0 +1,39 @@
+\section{Introduction}
+\label{sec:introduction}
+Begin with a concrete workload or failure mode, identify the responsible
+component, and explain the observable consequence. Connect a learned
+model's behavior to the software and runtime that execute it.
+
+\paragraph{Problem and gap}
+Specify what existing validation observes and misses. Preserving a reference
+implementation's property through a transformation is a different question
+from establishing that the reference was correct. Keep these claims separate.
+
+\paragraph{Design insight}
+Describe the interface and oracle used to compare executions. Identify
+where a policy is enforced and which components it trusts. Protection
+principles provide context \citep{saltzer1975}; the paper must still supply
+a concrete model and supporting evidence.
+
+The sample structure supports three kinds of contribution:
+\begin{itemize}
+  \item A precisely scoped problem or threat model.
+  \item A system, analysis, or defense with an explicit mechanism.
+  \item An evaluation of effectiveness, overhead, and failure cases.
+\end{itemize}
+
+\section{Scope and Threat Model}
+\label{sec:threat}
+\paragraph{Assets and boundaries}
+Identify the protected property and trust boundaries. State whether the
+model, compiler, dependencies, runtime, and host are trusted. Distinguish
+data flow from control and privilege in diagrams.
+
+\paragraph{Adversarial control}
+List what an adversary can read, modify, or query, with the available budget
+and feedback. For non-adversarial work, specify faults and workloads instead.
+
+\paragraph{Success and exclusions}
+Define success as an observable outcome. Explain exclusions such as
+physical access or privileged host compromise. Exclusions narrow the
+claim; they do not establish safety.

@@ -1,0 +1,59 @@
+\section{Reproducibility and Artifact Details}
+\label{app:reproducibility}
+The appendix should carry details that help a reader reproduce or audit the
+work without interrupting the main argument. Keep assumptions and evidence
+needed to assess the central claim in the main paper.
+
+\begin{table}[h]
+  \caption{Suggested artifact manifest. Fill in exact values for the study.}
+  \centering\small
+  \begin{tabularx}{\linewidth}{@{}lX@{}}
+    \toprule
+    \textbf{Item} & \textbf{What to record} \\
+    \midrule
+    Source & Commit, license, and commands for each experiment \\
+    Environment & OS, accelerator, driver, compiler, and library versions \\
+    Data & Provenance, preprocessing, splits, and access conditions \\
+    Models & Checkpoints, tokenizer, precision, and inference settings \\
+    Compute & Budget, seeds, run count, and failure handling \\
+    Evidence & Raw measurements, analysis scripts, and expected outputs \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Example configuration}
+\begin{lstlisting}[language=STARPython,caption={An illustrative configuration
+schema. Values must be chosen for the actual experiment.},label={lst:config}]
+experiment = {
+    "model": "replace-with-checkpoint",
+    "seed": 0,
+    "precision": "float32",
+    "split": "held-out-test",
+    "record_raw_outputs": True,
+}
+\end{lstlisting}
+
+\subsection{Editing the manuscript}
+Edit \code{paper-info-single.tex} to change the title, authors, affiliation,
+keywords, and short running title. Edit the files under
+\code{sections/single/} to replace the sample content. Keep new notation in
+\code{macros.tex}, references in \code{references.bib}, and illustrations in
+\code{figures/}. The shared class controls the visual design.
+
+The bibliography uses BibTeX and author--year citations in this layout.
+Use \verb|\citet{key}| for a textual citation and \verb|\citep{key}| for a
+parenthetical citation. Use \verb|\autoref{label}| to create typed references
+to sections, equations, figures, tables, and algorithms.
+
+\subsection{Modes and publication workflow}
+Add \code{anonymous} to the document-class options to hide the lab emblem,
+authors, affiliation, email addresses, acknowledgments, and identifying
+PDF metadata managed by this class. Inspect the manuscript content,
+citations, links, and external assets separately for identity disclosures.
+Add \code{monochrome} for a grayscale version of the class palette and logo.
+
+Use the lab style for preprints, technical reports, and internal drafts.
+For a specific venue, use its required class and current author instructions.
+The section files, bibliography, equations, and vector figures are designed
+to be reusable, but class-specific helpers need to be replaced when moving
+to another style. The package's README explains this handoff.

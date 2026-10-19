@@ -1,0 +1,63 @@
+\section{System Design}
+\label{sec:design}
+\begin{figure*}[t]
+  \centering
+  \input{figures/pipeline}
+  \caption{Illustrative architecture across the learning-to-execution
+  pipeline. The full-width float demonstrates how a systems paper can
+  show component interfaces without shrinking labels to column width.}
+  \label{fig:architecture}
+\end{figure*}
+
+\subsection{Inputs, outputs, and invariants}
+Let $P$ be a reference program, $\mathcal{C}(P)$ its transformed version,
+and $\testset$ a finite test set. A comparison-based study might inspect
+\begin{equation}
+  \Delta(x)=d\bigl(P(x),\mathcal{C}(P)(x)\bigr),
+  \qquad x\in\testset,
+  \label{eq:deviation}
+\end{equation}
+where $d$ is a domain-appropriate distance. State whether outputs are
+logits, labels, traces, or program states; these choices determine what
+the oracle can detect. A small value of $\Delta$ does not imply a general
+security guarantee, and a large value requires interpretation against the
+declared specification.
+
+\begin{definition}[Observed discrepancy]
+For a declared threshold $\tau\geq0$, an input $x$ exhibits an observed
+discrepancy when $\Delta(x)>\tau$ under the fixed evaluation configuration.
+\end{definition}
+
+\subsection{Mechanism and design rationale}
+\autoref{fig:architecture} separates specification, construction, execution,
+and validation. Identify the new idea, each transformation's interface,
+and persistent state. For a heuristic, state its rationale and the
+experiment that tests its usefulness.
+
+\begin{algorithm}[t]
+  \caption{Illustrative discrepancy collection}
+  \label{alg:collect}
+  \begin{algorithmic}[1]
+    \Require Programs $P,Q$, tests $\testset$, threshold $\tau$
+    \Ensure Findings $F$ and execution errors $E$
+    \State $F\gets\emptyset$; $E\gets\emptyset$
+    \For{each $x\in\testset$}
+      \State $(a,b,s)\gets\operatorname{RunPair}(P,Q,x)$
+      \If{$s\neq\textsc{ok}$}
+        \State $E\gets E\cup\{(x,s)\}$
+      \ElsIf{$d(a,b)>\tau$}
+        \State $F\gets F\cup\{(x,a,b)\}$
+      \EndIf
+    \EndFor
+    \State \Return $(F,E)$
+  \end{algorithmic}
+\end{algorithm}
+
+\autoref{alg:collect} separates discrepancies from failed executions.
+Distinguish crashes, timeouts, invalid inputs, and nondeterminism so
+aggregates do not mix incompatible outcomes.
+
+\subsection{Implementation details}
+Report the language, versions, environment, and configuration. Explain
+timeout handling, state resets, and failure recording. Place complete
+commands and configuration files in the artifact.

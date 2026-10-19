@@ -1,0 +1,22 @@
+% Pure vector TikZ figure, reused at full text width in both layouts.
+\begin{tikzpicture}[x=0.01\linewidth,y=1cm,
+  stage/.style={draw=STARLine,fill=STARLight,rounded corners=2pt,
+    minimum height=1.02cm,text width=0.185\linewidth,align=center,
+    inner sep=5pt,font=\sffamily\small},
+  flow/.style={-{Latex[length=2mm]},line width=0.65pt,draw=STARForest}]
+  \node[stage] (a) at (11,0) {\textbf{Specify}\\[-1pt]
+    {\scriptsize Data and assumptions}};
+  \node[stage] (b) at (37,0) {\textbf{Construct}\\[-1pt]
+    {\scriptsize Model and program}};
+  \node[stage] (c) at (63,0) {\textbf{Execute}\\[-1pt]
+    {\scriptsize Compiler and runtime}};
+  \node[stage] (d) at (89,0) {\textbf{Validate}\\[-1pt]
+    {\scriptsize Evidence and artifacts}};
+  \draw[flow] (a) -- (b);
+  \draw[flow] (b) -- (c);
+  \draw[flow] (c) -- (d);
+  \draw[STARForest,line width=0.65pt]
+    (1,-0.80) -- (1,-0.98) -- (99,-0.98) -- (99,-0.80);
+  \node[fill=white,inner xsep=7pt,font=\sffamily\scriptsize,
+    text=STARForest] at (50,-0.98) {EXPLICIT CONTRACTS AT EVERY BOUNDARY};
+\end{tikzpicture}

@@ -1,0 +1,46 @@
+\section{Evaluation Design}
+\label{sec:evaluation}
+Organize the evaluation around questions that test the contribution.
+For each question, specify the subjects, comparison, metric, and analysis.
+
+\subsection{Questions and experimental controls}
+\textbf{RQ1: Task quality.} Does the method improve the target metric under
+matched data, tuning budgets, and stopping conditions?
+\textbf{RQ2: System cost.} What latency, memory, and compute costs accompany
+that change?
+\textbf{RQ3: Mechanism.} Which component explains the observed behavior,
+and under what conditions does it stop helping?
+
+Report data collection, filtering, splits, and leakage prevention. Record
+versions, seeds, hardware, and precision settings. Specify whether
+uncertainty reflects independent runs, resampled inputs, or variation
+across subjects; these sources answer different questions.
+
+\begin{table}[htbp]
+  \caption{A results-table skeleton. Dashes indicate unfilled cells, not
+  measured zeroes. Replace them with results and uncertainty estimates;
+  do not describe improvements until measurements are available.}
+  \label{tab:results}
+  \centering\small
+  \begin{tabularx}{\linewidth}{@{}Xrrr@{}}
+    \toprule
+    \textbf{Configuration} & \textbf{Quality $\uparrow$} &
+      \textbf{Latency (ms) $\downarrow$} & \textbf{Memory (GB) $\downarrow$} \\
+    \midrule
+    Reference implementation & \placeholder & \placeholder & \placeholder \\
+    Strong baseline          & \placeholder & \placeholder & \placeholder \\
+    \method                  & \placeholder & \placeholder & \placeholder \\
+    \method{} without constraint & \placeholder & \placeholder & \placeholder \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Results and interpretation}
+Use \autoref{tab:results} to report effectiveness and cost. Define the quality
+metric. For latency, specify batch size, warm-up, synchronization, and the
+measured percentile. Distinguish peak allocated memory from reserved or
+resident memory.
+
+Answer each research question and bound its scope. Pair aggregates with
+failure analysis. Ablations should change one decision at a time; when
+factors change together, describe the confound.

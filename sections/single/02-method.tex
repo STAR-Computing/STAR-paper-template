@@ -1,0 +1,79 @@
+% Prefer a break here over leaving the heading above a deferred figure.
+\pagebreak[3]
+\section{Problem Formulation and Method}
+\label{sec:method}
+\begin{figure}[t]
+  \centering
+  \input{figures/pipeline}
+  \caption{An illustrative research pipeline. Each boundary carries an
+  explicit contract: what enters, what changes, and what is checked.
+  This diagram is a template component, not an evaluated system.}
+  \label{fig:pipeline}
+\end{figure}
+
+\subsection{Define the contract}
+Let $\dataset=\{(x_i,y_i)\}_{i=1}^{n}$ be a training set and let
+$f_\theta$ denote a model with parameters $\theta\in\R^d$.
+Write the objective in a form that separates task quality from the
+system property under study:
+\begin{equation}
+  \theta^{\star}=\arg\min_{\theta}\;
+  \frac{1}{n}\sum_{i=1}^{n}\loss(f_\theta(x_i),y_i)
+  +\lambda\,\Omega(\theta;\mathcal{S}).
+  \label{eq:objective}
+\end{equation}
+Here $\mathcal{S}$ specifies the deployment setting, $\Omega$ is a chosen
+penalty, and $\lambda\geq 0$ controls its weight. Define the units and
+estimation procedure for each term. A penalty is not, by itself, a guarantee
+that a deployed system satisfies the intended property.
+
+\begin{assumption}[Fixed evaluation interface]
+\label{ass:interface}
+The candidate and reference implementations use the same input schema,
+preprocessing, and declared numerical precision during evaluation.
+\end{assumption}
+
+\subsection{Make the mechanism inspectable}
+\autoref{fig:pipeline} separates specification, construction, execution,
+and validation. Define each stage's inputs, transformation, and outputs.
+Explain why a simpler alternative does not address the gap, and distinguish
+requirements from implementation choices.
+
+\begin{algorithm}[htbp]
+  \caption{Illustrative candidate-selection protocol}
+  \label{alg:selection}
+  \begin{algorithmic}[1]
+    \Require Candidate set $\Theta$, validation set $\mathcal{V}$, constraint $g$
+    \Ensure Best feasible candidate, or explicit failure
+    \State $\theta^{\star}\gets\bot$; $s^{\star}\gets+\infty$
+    \For{each $\theta\in\Theta$}
+      \If{$g(\theta,\mathcal{V})\leq 0$}
+        \State $s\gets\operatorname{Evaluate}(\theta,\mathcal{V})$
+        \If{$s<s^{\star}$}
+          \State $(\theta^{\star},s^{\star})\gets(\theta,s)$
+        \EndIf
+      \EndIf
+    \EndFor
+    \State \Return $\theta^{\star}$
+  \end{algorithmic}
+\end{algorithm}
+
+\autoref{alg:selection} permits explicit failure when no candidate passes.
+State the budget, stopping condition, tie-breaking rule, and treatment of
+invalid outputs. Selection uses validation data; reserve the held-out test
+set for the final evaluation.
+
+\subsection{Bound the claim}
+\begin{proposition}[Finite-set selection]
+If $\Theta$ is finite, all evaluations terminate, and the scores are finite
+real numbers, \autoref{alg:selection} returns a minimum-score feasible
+candidate whenever one exists.
+\end{proposition}
+\begin{proof}
+After each iteration, the stored candidate has the smallest score among
+the feasible candidates visited so far. The update preserves this invariant.
+The finite loop visits every candidate, which establishes the result.
+\end{proof}
+This illustrative statement concerns only the enumerated candidate set.
+It says nothing about unobserved inputs, global optimality, or deployment
+security. State those limits alongside any theorem or empirical conclusion.

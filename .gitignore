@@ -1,0 +1,20 @@
+# Generated build internals; keep the intentional output/ deliverables.
+build/
+tmp/
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+.DS_Store
+
+# Private or third-party material: kept locally, never published.
+example/
+demo/
+other_example/

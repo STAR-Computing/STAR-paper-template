@@ -1,0 +1,18 @@
+% Overleaf default: SINGLE-COLUMN AI / ML / MLSys paper.
+% Choose main-double.tex as the Main document for the two-column version.
+% Options: singlecolumn | twocolumn, anonymous, monochrome.
+\documentclass[singlecolumn]{starpaper}
+\input{paper-info-single}
+\input{macros}
+\begin{document}
+\maketitle
+\input{sections/single/00-abstract}
+\input{sections/single/01-introduction}
+\input{sections/single/02-method}
+\input{sections/single/03-evaluation}
+\input{sections/single/04-discussion}
+\starbibliography{references}
+\clearpage
+\appendix
+\input{sections/single/05-appendix}
+\end{document}

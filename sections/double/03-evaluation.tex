@@ -1,0 +1,48 @@
+% Keep this sample heading with the evaluation text in the next column.
+\pagebreak[3]
+\section{Evaluation}
+\label{sec:evaluation}
+\subsection{Research questions and subjects}
+Tie each question to a capability: effectiveness measures the target
+behavior, overhead measures resources, and an ablation isolates a design
+decision's contribution.
+
+Describe subject selection, version pinning, exclusions, and the unit of
+analysis. Repeated inputs from one model are not automatically independent
+subjects. Identify the population the conclusions concern.
+
+\begin{table}[t]
+  \caption{Compact results skeleton. All cells are intentionally unfilled;
+  dashes represent missing measurements.}
+  \label{tab:systems}
+  \centering\small
+  \begin{tabularx}{\linewidth}{@{}Xrrr@{}}
+    \toprule
+    \textbf{System} & \textbf{Found} & \textbf{FP rate} & \textbf{Time (s)} \\
+    \midrule
+    Baseline A & \placeholder & \placeholder & \placeholder \\
+    Baseline B & \placeholder & \placeholder & \placeholder \\
+    \method   & \placeholder & \placeholder & \placeholder \\
+    Ablation  & \placeholder & \placeholder & \placeholder \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Baselines, metrics, and controls}
+Use strong baselines and match budgets. Define every denominator, including
+the negative population for a false-positive rate. Explain labeling,
+deduplication, and how distinct root causes were determined.
+
+Report workload shape, concurrency, warm-up, repetition, and hardware.
+Distinguish throughput from latency. Record model checkpoints,
+preprocessing, and precision; introduce learning concepts only as needed
+\citep{goodfellow2016}.
+
+\subsection{Analysis and failure cases}
+Use \autoref{tab:systems} to answer the research question. Match uncertainty
+to the unit of analysis. Explain whether gains span subjects or concern a
+small subset. Analyze failures that challenge the method's assumptions.
+
+\starcallout{EVIDENCE BEFORE CLAIMS}{Replace table placeholders with measured
+values. A discrepancy, a confirmed defect, and an exploitable vulnerability
+are different outcomes; label each according to the evidence collected.}

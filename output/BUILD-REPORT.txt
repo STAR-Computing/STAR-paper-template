@@ -1,0 +1,101 @@
+STAR LAB TEMPLATE - BUILD AND VERIFICATION REPORT
+Date: 2026-10-18
+Workflow: paper-compile skill (the available equivalent of compile-pdf), with PDF visual inspection.
+Compiler: Tectonic 0.17.0, using an isolated local TeX resource bundle.
+Overleaf setting: pdfLaTeX. pdfLaTeX/latexmk are not installed locally, so this engine path was not executed here.
+
+DELIVERABLES
+- STAR-single-column.pdf: 4 pages; 109,122 bytes.
+  Final TeX log: no warnings, undefined citations/references, or overfull/underfull boxes.
+  All fonts embedded; all pages rendered and visually inspected.
+  Extracted text checked for unresolved markers and content outside page boundaries.
+- STAR-double-column.pdf: 3 pages; 75,891 bytes.
+  Final TeX log: no warnings, undefined citations/references, or overfull/underfull boxes.
+  All fonts embedded; all pages rendered and visually inspected.
+  Extracted text checked for unresolved markers and content outside page boundaries.
+
+MODE AND PACKAGE CHECKS
+- Both layouts pass anonymous-mode checks for author names, affiliations, emails,
+  lab marks, acknowledgments, running furniture, and PDF metadata in neutral fixtures.
+- Both layouts pass monochrome-logo selection checks.
+- Both standalone Overleaf ZIPs compile after extraction into fresh directories.
+- Complete-kit ZIP integrity checked; both main documents included.
+- User example archives are excluded from every upload ZIP.
+
+REMAINING ENVIRONMENT NOTICES
+- The local XeTeX/Tectonic path uses macOS Palatino/Helvetica fallback fonts.
+  Tectonic reports absolute font paths and probes optional font resource sidecars.
+  These notices did not prevent font embedding or affect the inspected pages.
+- pdfLaTeX on Overleaf uses TeX-distribution fonts; minor line/page-break
+  differences between engines are possible. Use one engine consistently.
+- These are original lab/preprint styles, not official conference submission styles.
+- No venue page limit applies to these instructional previews.
+- The double-column PDF is below the compilation skill's generic 100 KB size
+  heuristic because it contains compact vector content. It has three valid,
+  fully rendered pages with embedded fonts; no size padding was added.
+
+PRESERVED EXAMPLES (SHA-256)
+COLM26_SWExploit_CameraReady (1).zip
+a6c49ed18c99958877dacb5dc60ce8d0b64c9eab21aa4b1671f46e9dd5d384ea
+SP26_DLFloating_CameraReady (6).zip
+0a5874aebe43632399ea274674e5e746c0bf8ade2f9c18ccfbc38333f3f4e8e6
+
+S-AND-STAR REDESIGN (2026-10-18, v1.2)
+  Replaced the faceted emblem with a continuous S monogram and a small
+  four-point star in negative space, with cleaner sans-serif STAR LAB type.
+  Retained midnight navy #25356B and cyan #00A8C6.
+  Coordinated the GMU position as a two-line GEORGE MASON UNIVERSITY text
+  wordmark. This is custom typesetting, not modified official logo artwork.
+  The official GMU image is preserved as an optional asset via stargmulogo.
+  The editable Partner Institution placeholder remains available.
+  Built-in image_gen was used for concepts; final STAR art is native vector
+  geometry with outlined lettering. Design brief: assets/DESIGN.txt.
+  STAR assets: PDF, SVG, and transparent PNG; color, mono, and reverse.
+
+CURRENT VERIFICATION
+  Both templates and both full demo manuscripts compile successfully.
+  No unresolved references/citations, no overfull boxes, all fonts embedded.
+  All pages rendered for visual review; title pages inspected at larger size.
+  Anonymous and monochrome checks pass in both layouts. The text university
+  name and custom partner slot are hidden in anonymous mode.
+  The optional official GMU image still compiles and is hidden anonymously.
+  Updated ZIPs pass integrity and source/asset checks. A fresh extracted
+  single-column ZIP compiles; both layouts compile in the master project.
+  Original example archives match their recorded SHA-256 checksums.
+  Current checks and renders: build/monogram-redesign/qa/.
+  Previous logo assets: build/monogram-redesign/previous/.
+
+LAB NAME UPDATE (2026-10-18, v1.3)
+  STAR = System Trustworthiness and AI Reliability, as supplied by the user.
+  Full name appears beneath the logo row and in identifying PDF metadata.
+  Paper-specific research tracks remain in PDF metadata.
+  All four PDFs compile without unresolved references or overfull boxes;
+  all fonts are embedded. Page counts remain 4, 3, 43, and 21.
+  Extracted paper text is identical apart from the masthead and template
+  version. Updated mastheads were rendered and visually checked.
+  Anonymous and monochrome checks pass in both layouts; full lab name is
+  absent from anonymous mastheads and identifying PDF metadata.
+  Overleaf and logo ZIPs refreshed; ZIP contents and integrity verified.
+  Original example archive SHA-256 checksums are unchanged.
+  Current validation: build/lab-name-update/qa/checks.json.
+
+IDENTITY REFINEMENT (2026-10-18, v1.4)
+  Refined the approved S-and-star direction with balanced 180-degree strokes
+  and a centered four-point opening. Added a custom A with a matching star
+  counter to connect the wordmark visually to the emblem.
+  Added a small-use emblem with more open channels, transparent 16-256 pixel
+  icons, a multi-resolution favicon, and a full-name signature for larger use.
+  All forms have color, monochrome, and reverse vector artwork. Native vector
+  refinement was used; no new image generation was used in this step.
+  Review sheet: output/STAR-identity-preview.png.
+  Approved prior artwork: build/identity-refinement/previous/.
+
+  Both templates and both demos compile successfully. Extracted manuscript
+  text is unchanged apart from the template version. Page counts are stable.
+  No unresolved references or overfull boxes; all publication fonts embedded.
+  All logo PDFs use outlined artwork without embedded font dependencies.
+  Updated title pages, small icons, monochrome and reverse artwork inspected.
+  Anonymous/monochrome checks pass in both layouts. ZIP contents and integrity
+  verified; favicon resolutions and PNG transparency validated.
+  Original example archives retain their recorded SHA-256 checksums.
+  Current validation: build/identity-refinement/qa/checks.json.

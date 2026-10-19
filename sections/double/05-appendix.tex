@@ -1,0 +1,63 @@
+\section{Artifact and Reproduction Guide}
+\label{app:artifact}
+An artifact should connect each reported result to an executable command,
+configuration, and raw output. Record immutable source revisions and
+dependency versions. Document the time and resources needed for a small
+sanity check and for the full evaluation.
+
+\subsection{A minimal execution record}
+\begin{lstlisting}[language=STARPython,caption={Illustrative record format;
+replace fields with the study's actual schema.},label={lst:record}]
+record = {
+    "subject": "replace-with-id",
+    "revision": "replace-with-commit",
+    "seed": 0,
+    "status": "ok",
+    "raw_output": "results/run.json",
+}
+\end{lstlisting}
+
+Use separate statuses for timeouts, crashes, invalid inputs, and completed
+runs. Preserve enough evidence to distinguish a harness failure from a
+failure of the system being studied.
+
+\subsection{Release manifest}
+\begin{itemize}
+  \item Source and configuration with explicit licenses.
+  \item Data provenance, access rules, and preprocessing steps.
+  \item Hardware and software environment specifications.
+  \item Commands that regenerate each table and figure.
+  \item Raw outputs, labeling records, and known limitations.
+\end{itemize}
+
+% In this short demonstration appendix, begin the independent editing guide
+% at the top of the second column. Remove this break in a longer manuscript.
+\newpage
+\section{Working with the STAR Template}
+Edit \code{paper-info-double.tex} for paper metadata and the files in
+\code{sections/double/} for content. Store reusable notation in
+\code{macros.tex}. The \code{starpaper.cls} file controls both layouts;
+the two-column option switches the typeface, geometry, citation style,
+and title treatment together.
+
+Use \verb|figure| for a column-width illustration and
+\verb|figure*| for an illustration spanning both columns. Full-width
+floats normally appear at the top of a later page. Refer to every figure
+in the text, and keep its labels readable at its final printed size.
+
+\subsection{Anonymous and grayscale modes}
+The \code{anonymous} class option removes the lab logo, author block,
+affiliation, emails, identifying running furniture, acknowledgments, and
+author metadata managed by the class. It does not inspect prose or
+third-party assets. Review links, self-references, and supplementary files
+before an anonymous submission.
+
+The \code{monochrome} option changes the class colors and built-in logo to
+grayscale. External figures retain their original colors and must be
+checked separately.
+
+\subsection{Using an official venue style}
+Use this original lab style for manuscripts and preprints. Use the official
+venue template for conference submissions. Reuse section files and the
+bibliography, load the required packages, and replace lab-specific commands.
+Remove identifying marks from anonymous manuscripts.
