@@ -1,44 +1,118 @@
 #!/usr/bin/env python3
-"""Build STAR's S-and-spark identity as vector SVG/PDF and transparent PNG.
+"""Build the STAR Lab Polaris identity as SVG, PDF, PNG, icons, and favicon.
 
-STAR stands for System Trustworthiness and AI Reliability.
+STAR stands for System Trustworthiness and AI Reliability. The mark is a
+tall, faceted Polaris (the North Star: a fixed point people trust to
+navigate by), split down the middle. The navy half carries a program graph
+of square modules with right-angle wiring (software systems); the sky-blue
+half carries a neural network of round neurons with diagonal links (AI).
 
-Regeneration uses rsvg-convert and pdftocairo. STAR LAB is drawn entirely
-with custom paths; only the expanded-name descriptor uses Arial during
-regeneration. All final assets contain outlines, so Overleaf and consumers
-do not need any fonts or external tools.
+Usage:  python3 make-logo.py [output-dir]     (default: this directory)
+
+Regeneration needs rsvg-convert and pdftocairo. STAR LAB is drawn as custom
+paths; only the full-name line of the signature uses Arial, and it is
+converted to outlines, so the outputs need no fonts.
 """
 from pathlib import Path
+import math
 import struct
 import subprocess
+import sys
 
-ROOT = Path(__file__).resolve().parents[1]
-ASSETS = ROOT / "assets"
-WORK = ROOT / "build" / "identity-polish"
-ASSETS.mkdir(exist_ok=True)
-WORK.mkdir(parents=True, exist_ok=True)
-MIDNIGHT, CYAN = "#25356B", "#00A8C6"
+OUT = Path(sys.argv[1] if len(sys.argv) > 1 else Path(__file__).resolve().parent)
+WORK = OUT / ".build"
+OUT.mkdir(parents=True, exist_ok=True)
+WORK.mkdir(exist_ok=True)
+
+NAVY, SKY, WHITE, INK = "#0A2463", "#82C3F0", "#FFFFFF", "#1A1A1A"
 FULL_NAME = "System Trustworthiness and AI Reliability"
 
+# Polaris geometry in a 104-unit box: rays clockwise from north.
+CX = CY = 52
+RAYS = (50, 20, 38, 20, 50, 20, 38, 20)
+VALLEY = 20
+GAP = 1.3          # each half moves this far from the center line
+SYMBOL_SCALE = .7
 
-def emblem(primary, accent, small=False):
-    """Balanced S strokes rotate around a centered star-shaped opening.
 
-    The small-use drawing opens the narrow channels for 16-32 pixel icons.
-    Both versions remain vector paths with real transparent negative space.
-    """
-    tip, reach, shoulder, tail = (49, 29, 47, 50) if small else (51, 31, 49, 52)
-    curve = f'''M44 5 H96 C93 20 82 28 66 28 H34
-      C36 32 42 34 {tip} 36 L{shoulder} 45 Q{shoulder-1} 48 45 49 L{reach} 52
-      L45 55 Q{shoulder-1} 56 {shoulder} 59 L{tail} 69 L28 63
-      C12 60 5 53 5 42 C5 22 25 5 44 5 Z'''
-    return (f'<path fill="{primary}" d="{curve}"/>'
-            f'<path fill="{accent}" transform="rotate(180 52 52)" d="{curve}"/>')
+def mix(color, other, t):
+    a = [int(color[i:i + 2], 16) for i in (1, 3, 5)]
+    b = [int(other[i:i + 2], 16) for i in (1, 3, 5)]
+    return "#" + "".join(f"{round(x + (y - x) * t):02X}" for x, y in zip(a, b))
+
+
+def poly(points):
+    return "M" + " L".join(f"{x:.2f} {y:.2f}" for x, y in points) + " Z"
+
+
+def ray_points():
+    points = []
+    for k in range(8):
+        a = math.radians(-90 + 45 * k)
+        points.append((CX + RAYS[k] * math.cos(a), CY + RAYS[k] * math.sin(a)))
+        a = math.radians(-90 + 45 * k + 22.5)
+        points.append((CX + VALLEY * math.cos(a), CY + VALLEY * math.sin(a)))
+    return points
+
+
+def halves():
+    """Split each ray into two facets and sort them into left/right halves."""
+    points, left, right = ray_points(), [], []
+    for k in range(8):
+        tip = points[2 * k]
+        for first, valley in ((True, points[2 * k - 1]), (False, points[2 * k + 1])):
+            facet = poly([(CX, CY), tip, valley])
+            (left if (tip[0] + valley[0] + CX) / 3 < CX else right).append((first, facet))
+    return left, right
+
+
+def emblem(left_dark, left_light, right_dark, right_light,
+           left_symbol, right_symbol, symbols=True):
+    left, right = halves()
+    def paint(facets, dark, light):
+        return "".join(f'<path fill="{dark if first else light}" d="{d}"/>' for first, d in facets)
+    out = (f'<g transform="translate({-GAP} 0)">{paint(left, left_dark, left_light)}'
+           + (program_graph(left_symbol) if symbols else "") + "</g>"
+           f'<g transform="translate({GAP} 0)">{paint(right, right_dark, right_light)}'
+           + (neural_net(right_symbol) if symbols else "") + "</g>")
+    return out
+
+
+def scaled(content):
+    return (f'<g transform="translate({CX} {CY}) scale({SYMBOL_SCALE}) '
+            f'translate({-CX} {-CY})">{content}</g>')
+
+
+def program_graph(color):
+    """Software: square modules joined by right-angle wiring (two feed one)."""
+    wire = (f'<path d="M{CX-7.5} {CY-8} H{CX-12} V{CY+8} H{CX-7.5} M{CX-12} {CY} H{CX-16}" '
+            f'fill="none" stroke="{color}" stroke-width="2.4"/>')
+    boxes = "".join(f'<rect x="{CX+x-3.4}" y="{CY+y-3.4}" width="6.8" height="6.8" rx="1.2" fill="{color}"/>'
+                    for x, y in [(-7.5, -8), (-7.5, 8), (-16, 0)])
+    return scaled(wire + boxes)
+
+
+def neural_net(color):
+    """AI: round neurons joined by diagonal links (two feed one)."""
+    links = (f'<path d="M{CX+7.5} {CY-8} L{CX+16} {CY} M{CX+7.5} {CY+8} L{CX+16} {CY}" '
+             f'fill="none" stroke="{color}" stroke-width="2.4" stroke-linecap="round"/>')
+    neurons = "".join(f'<circle cx="{CX+x}" cy="{CY+y}" r="3.6" fill="{color}"/>'
+                      for x, y in [(7.5, -8), (7.5, 8), (16, 0)])
+    return scaled(links + neurons)
+
+
+VARIANTS = {
+    # name: (left dark, left light, right dark, right light, left symbol, right symbol, word color)
+    "": (NAVY, mix(NAVY, WHITE, .16), mix(SKY, NAVY, .16), SKY, WHITE, NAVY, NAVY),
+    "-mono": (INK, INK, INK, INK, WHITE, WHITE, INK),
+    "-reverse": (WHITE, mix(WHITE, NAVY, .1), mix(SKY, NAVY, .12), SKY, NAVY, NAVY, WHITE),
+}
 
 
 def lettering(primary, shift=0):
     # Custom geometric letters share a 56-unit cap height and 10-12-unit
-    # strokes. Angled S/T terminals echo the emblem; the A repeats its star.
+    # strokes. Angled S/T terminals give the wordmark its movement; the A
+    # carries a small star-shaped counter.
     s = '''M46 4 C39 0 31 -1 24 -1 C9 -1 1 6 1 16
       C1 26 9 30 22 33 L29 35 C34 36 36 38 36 41
       C36 45 32 47 25 47 C17 47 10 44 5 40 L0 49
@@ -64,9 +138,14 @@ def lettering(primary, shift=0):
                    for x, path in [(0, s), (54, t), (100, a), (163, r)])
     lab = ''.join(f'<path transform="translate({x} 0)" d="{path}"/>'
                   for x, path in [(0, lab_l), (23, lab_a), (54, lab_b)])
-    return (f'<g fill="{primary}" fill-rule="evenodd" transform="translate(0 {shift})">'
-            f'<g transform="translate(120 24)">{star}</g>'
-            f'<g transform="translate(352 56.06) scale(.84)">{lab}</g></g>')
+    return (f'<g fill="{primary}" fill-rule="evenodd" transform="translate({TEXT_X} {shift})">'
+            f'<g transform="translate(0 24)">{star}</g>'
+            f'<g transform="translate(232 56.06) scale(.84)">{lab}</g></g>')
+
+
+# The mark spans x 13-91 of its box; lockups shift it flush left.
+MARK_SHIFT, TEXT_X = -12.5, 94
+LOCKUP_W = 406
 
 
 def document(contents, width, height, title, description):
@@ -79,97 +158,92 @@ def document(contents, width, height, title, description):
 def export(name, svg, width, outline=False):
     source = WORK / (name + "-source.svg")
     source.write_text(svg)
-    pdf = ASSETS / (name + ".pdf")
+    pdf = OUT / (name + ".pdf")
     subprocess.run(["rsvg-convert", "-f", "pdf", "-o", str(pdf), str(source)], check=True)
-    destination = ASSETS / (name + ".svg")
+    destination = OUT / (name + ".svg")
     if outline:
-        # Cairo converts supporting lettering to reusable glyph paths.
+        # Cairo converts the full-name line to glyph outlines.
         subprocess.run(["pdftocairo", "-svg", str(pdf), str(destination)], check=True)
-        # Re-export the outlined SVG so the PDF also contains no font objects.
-        subprocess.run(["rsvg-convert", "-f", "pdf", "-o", str(pdf),
-                        str(destination)], check=True)
+        subprocess.run(["rsvg-convert", "-f", "pdf", "-o", str(pdf), str(destination)], check=True)
     else:
         destination.write_text(svg)
     subprocess.run(["rsvg-convert", "-w", str(width), "-o",
-                    str(ASSETS / (name + ".png")), str(destination)], check=True)
+                    str(OUT / (name + ".png")), str(destination)], check=True)
 
 
-for suffix, primary, accent in [("", MIDNIGHT, CYAN),
-                                 ("-mono", "#202020", "#202020"),
-                                 ("-reverse", "#FFFFFF", CYAN)]:
-    mark = emblem(primary, accent)
-    export("star-mark" + suffix,
-           document(mark, 104, 104, "STAR Lab S monogram",
-                    "Sculpted S strokes surround a centered four-point star. " + FULL_NAME), 1040)
+DESC = ("A faceted Polaris split in two: a program graph for software systems "
+        "and a neural network for AI. ")
+
+for suffix, (ld, ll, rd, rl, ls, rs, word) in VARIANTS.items():
+    mark = emblem(ld, ll, rd, rl, ls, rs)
+    export("star-mark" + suffix, document(mark, 104, 104, "STAR Lab Polaris", DESC + FULL_NAME), 1040)
     export("star-mark-small" + suffix,
-           document(emblem(primary, accent, small=True), 104, 104,
-                    "STAR Lab small-use monogram", "Open-channel variant for small icons."), 1040)
-    lockup = mark + lettering(primary)
+           document(emblem(ld, ll, rd, rl, ls, rs, symbols=False), 104, 104,
+                    "STAR Lab Polaris, small", "Symbol-free variant for 16-32 pixel icons."), 1040)
+    placed = f'<g transform="translate({MARK_SHIFT} 0)">{mark}</g>'
     export("star-lockup" + suffix,
-           document(lockup, 432, 104, "STAR Lab",
-                    "S-and-star monogram and custom-drawn STAR LAB lettering. " + FULL_NAME),
-           2240)
-    signature = (mark + lettering(primary, shift=-8) +
-                 f'<text x="120" y="99" fill="{primary}" '
-                 'font-family="Arial, sans-serif" font-size="14.5" '
-                 f'font-weight="400">{FULL_NAME}</text>')
+           document(placed + lettering(word), LOCKUP_W, 104, "STAR Lab", DESC + FULL_NAME),
+           round(2240 * LOCKUP_W / 432))
+    signature = (placed + lettering(word, shift=-8) +
+                 f'<text x="{TEXT_X}" y="99" fill="{word}" font-family="Arial, sans-serif" '
+                 f'font-size="14.5" font-weight="400">{FULL_NAME}</text>')
     export("star-signature" + suffix,
-           document(signature, 432, 104, "STAR Lab - " + FULL_NAME,
-                    "The full lab signature for larger uses."), 2240, outline=True)
+           document(signature, LOCKUP_W, 104, "STAR Lab - " + FULL_NAME,
+                    "The full lab signature for larger uses."),
+           round(2240 * LOCKUP_W / 432), outline=True)
 
-# Native vector rendering for small application icons; no bitmap tracing.
+# Native vector rendering for app icons; the small mark below 48 pixels.
 for size in [16, 24, 32, 48, 64, 128, 256]:
-    source = ASSETS / ("star-mark-small.svg" if size <= 32 else "star-mark.svg")
+    source = OUT / ("star-mark-small.svg" if size <= 32 else "star-mark.svg")
     subprocess.run(["rsvg-convert", "-w", str(size), "-h", str(size),
-                    "-o", str(ASSETS / f"star-icon-{size}.png"), str(source)], check=True)
+                    "-o", str(OUT / f"star-icon-{size}.png"), str(source)], check=True)
 icon_sizes = [16, 32, 48]
-icon_data = [(ASSETS / f"star-icon-{size}.png").read_bytes() for size in icon_sizes]
+icon_data = [(OUT / f"star-icon-{size}.png").read_bytes() for size in icon_sizes]
 offset = 6 + 16 * len(icon_sizes)
 entries = []
 for size, payload in zip(icon_sizes, icon_data):
     entries.append(struct.pack("<BBBBHHII", size, size, 0, 0, 1, 32, len(payload), offset))
     offset += len(payload)
-(ASSETS / "star-favicon.ico").write_bytes(
+(OUT / "star-favicon.ico").write_bytes(
     struct.pack("<HHH", 0, 1, len(icon_sizes)) + b"".join(entries) + b"".join(icon_data))
 
-# A presentation preview is intentionally on white; production PNGs remain
-# transparent, including the reverse mark for dark backgrounds.
-color = (ASSETS / "star-lockup.svg").read_text()
-start = color.index(">", color.index("<svg")) + 1
-color = color[:start] + '<rect width="100%" height="100%" fill="white"/>' + color[start:]
-(WORK / "preview.svg").write_text(color)
-(ROOT / "output").mkdir(exist_ok=True)
-subprocess.run(["rsvg-convert", "-w", "1792", "-o",
-                str(ROOT / "output" / "STAR-logo-preview.png"),
-                str(WORK / "preview.svg")], check=True)
+# Square avatar for GitHub and social previews; safe inside a circular crop.
+avatar = (f'<rect width="104" height="104" fill="{WHITE}"/>'
+          f'<g transform="translate(52 52) scale(.8) translate(-52 -52)">'
+          + emblem(*VARIANTS[""][:6]) + '</g>')
+(WORK / "avatar.svg").write_text(document(avatar, 104, 104, "STAR Lab", FULL_NAME))
+subprocess.run(["rsvg-convert", "-w", "1024", "-h", "1024", "-o",
+                str(OUT / "star-github-avatar.png"), str(WORK / "avatar.svg")], check=True)
 
-# A review sheet shows the actual identity at large, small, and one-ink sizes.
-sheet = ('<rect width="1280" height="650" fill="white"/>'
-         '<text x="72" y="48" font-family="Arial, sans-serif" font-size="12" '
-         'letter-spacing="1.4" fill="#5C6577">STAR LAB / IDENTITY SYSTEM</text>'
-         '<g transform="translate(72 90) scale(2.6)">' + emblem(MIDNIGHT, CYAN) +
-         lettering(MIDNIGHT, shift=-8) +
-         f'<text x="120" y="99" fill="{MIDNIGHT}" font-family="Arial, sans-serif" '
+# Review sheet: large mark, signature, small sizes, one color, and on dark.
+c = VARIANTS[""]
+sheet = ('<rect width="1280" height="700" fill="white"/>'
+         '<text x="72" y="56" font-family="Arial, sans-serif" font-size="12" '
+         'letter-spacing="1.4" fill="#5C6577">STAR LAB / POLARIS IDENTITY</text>'
+         f'<g transform="translate(60 80) scale(2.9)">{emblem(*c[:6])}</g>'
+         f'<g transform="translate(420 130) scale(1.9)"><g transform="translate({MARK_SHIFT} 0)">'
+         f'{emblem(*c[:6])}</g>{lettering(NAVY, shift=-8)}'
+         f'<text x="{TEXT_X}" y="99" fill="{NAVY}" font-family="Arial, sans-serif" '
          f'font-size="14.5">{FULL_NAME}</text></g>'
-         '<path d="M72 410 H1208" stroke="#D3DBE7"/>'
-         '<text x="72" y="460" font-family="Arial, sans-serif" font-size="11" '
-         'letter-spacing="1" fill="#5C6577">SMALL-SIZE MARK</text>'
-         '<text x="440" y="460" font-family="Arial, sans-serif" font-size="11" '
+         '<path d="M72 420 H1208" stroke="#D3DBE7"/>'
+         '<text x="72" y="466" font-family="Arial, sans-serif" font-size="11" '
+         'letter-spacing="1" fill="#5C6577">SMALL SIZES</text>'
+         '<text x="440" y="466" font-family="Arial, sans-serif" font-size="11" '
          'letter-spacing="1" fill="#5C6577">ONE COLOR</text>')
-for size, x in [(16, 72), (24, 136), (32, 208), (48, 288)]:
-    sheet += (f'<g transform="translate({x} {532-size}) scale({size/104})">' +
-              emblem(MIDNIGHT, CYAN, small=size<=32) + '</g>' +
-              f'<text x="{x}" y="560" font-family="Arial, sans-serif" '
-              f'font-size="12" fill="#5C6577">{size}px</text>')
-sheet += ('<g transform="translate(440 486) scale(.72)">' + emblem("#202020", "#202020") +
-          lettering("#202020") + '</g>'
-          f'<rect x="848" y="438" width="360" height="148" rx="12" fill="{MIDNIGHT}"/>'
-          '<text x="866" y="462" font-family="Arial, sans-serif" font-size="11" '
+for size, x in [(16, 72), (24, 112), (32, 160), (48, 216), (64, 288)]:
+    sheet += (f'<g transform="translate({x} {560-size}) scale({size/104})">'
+              + emblem(*c[:6], symbols=size > 32) + '</g>'
+              f'<text x="{x}" y="584" font-family="Arial, sans-serif" font-size="12" '
+              f'fill="#5C6577">{size}px</text>')
+m = VARIANTS["-mono"]
+r = VARIANTS["-reverse"]
+sheet += (f'<g transform="translate(430 486) scale(.75)"><g transform="translate({MARK_SHIFT} 0)">'
+          f'{emblem(*m[:6])}</g>{lettering(INK)}</g>'
+          f'<rect x="808" y="446" width="400" height="190" rx="14" fill="{NAVY}"/>'
+          '<text x="830" y="474" font-family="Arial, sans-serif" font-size="11" '
           'letter-spacing="1" fill="white">ON DARK</text>'
-          '<g transform="translate(866 485) scale(.75)">' + emblem("#FFFFFF", CYAN) +
-          lettering("#FFFFFF") + '</g>')
-(WORK / "identity-preview.svg").write_text(document(
-    sheet, 1280, 650, "STAR Lab identity", FULL_NAME))
-subprocess.run(["rsvg-convert", "-o", str(ROOT / "output" / "STAR-identity-preview.png"),
-                str(WORK / "identity-preview.svg")], check=True)
-print("Built color, monochrome, and reverse S-and-star monograms and lockups.")
+          f'<g transform="translate(836 500) scale(.82)"><g transform="translate({MARK_SHIFT} 0)">'
+          f'{emblem(*r[:6])}</g>{lettering(WHITE)}</g>')
+(WORK / "preview.svg").write_text(document(sheet, 1280, 700, "STAR Lab identity", FULL_NAME))
+subprocess.run(["rsvg-convert", "-o", str(OUT / "preview.png"), str(WORK / "preview.svg")], check=True)
+print(f"Built the STAR Polaris identity in {OUT}")

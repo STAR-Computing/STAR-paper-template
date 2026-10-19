@@ -18,3 +18,4 @@ tmp/
 example/
 demo/
 other_example/
+.build/

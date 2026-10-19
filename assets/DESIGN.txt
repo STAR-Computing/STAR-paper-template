@@ -68,3 +68,13 @@ Redo within v1.5:
   Resource rows are centered after the abstract, with adjacent labels and
   URLs, native vector icons, editable placeholders, and anonymous-mode hiding.
   Resource placement reference: https://arxiv.org/pdf/2610.22341 (page 1).
+
+Polaris identity (v2.0, October 2026):
+  Replaced the S-and-star monogram with a tall, faceted Polaris, the North
+  Star people trust to navigate by. The star is split down the middle: the
+  royal-navy half (#0A2463) carries a program graph of square modules with
+  right-angle wiring for software systems; the sky-blue half (#82C3F0)
+  carries a neural network of round neurons for AI. The small-use mark drops
+  both symbols for 16-32 pixel icons. The custom STAR LAB lettering is kept.
+  Master files and generator: the lab's logo/ folder (scripts/make-logo.py
+  here is an identical copy). Prior S-and-star artwork is in git history.

@@ -196,38 +196,30 @@ original colors unless a monochrome image is explicitly supplied.
 
 ## Logo and identity
 
-The approved S-and-star direction has a slimmer, sculpted silhouette. Two
-balanced strokes rotate around an open **four-point star in negative space**.
-The **STAR LAB lettering is drawn entirely as custom vector paths**, with
-consistent stroke weights, angled S/T terminals, and optical letter spacing.
-The **star-shaped opening in the A** connects the wordmark to the symbol.
-These repeated features give STAR a visual signature that also works in one ink.
+The STAR mark is a tall, faceted **Polaris** (the North Star, a fixed point
+people trust to navigate by), split down the middle. The **navy half** carries
+a program graph of square modules with right-angle wiring (software systems);
+the **sky-blue half** carries a neural network of round neurons (AI). The
+**STAR LAB lettering is drawn as custom vector paths**, and the A has a
+star-shaped counter.
 
-The original concept was explored with the built-in image-generation tool.
-This refinement edits the native vector geometry and lettering directly.
-The brief and design history are in `assets/DESIGN.txt`; the approved earlier
-artwork is preserved in `build/identity-polish/previous/`.
+The lab palette is `#0A2463` (royal navy) and `#82C3F0` (sky blue).
+`STARPrimary` and `STARAccent` are the LaTeX color names; `STARForest` and
+`STARGold` remain aliases so older figures still work. Sky blue is used for
+rules and accents, not body text.
 
-The lab palette is `#25356B` (midnight blue), `#00A8C6` (cyan), and
-`#222A3A` (ink). STAR has an independent visual identity. Its outlined
-wordmark contains STAR LAB; a two-line GEORGE MASON UNIVERSITY text
-wordmark sits beside it with matching typographic weight and spacing. The paper's section headings and figures
-use the same restrained blue palette. `STARPrimary` and `STARAccent` are
-the preferred LaTeX color names; `STARForest` and `STARGold` remain aliases
-so older figures still work.
+The master copy of every logo file lives in the lab's `logo/` folder; this
+template keeps identical copies in `assets/` so it stays self-contained.
+Use the PDF assets in LaTeX, SVG for editing, and transparent PNG for slides
+or the web. `star-mark.*` is the emblem, `star-lockup.*` adds the STAR LAB
+wordmark, and `star-signature.*` adds the full lab name. `star-mark-small.*`
+drops the symbols for 16–32 pixel icons; PNG icons and a favicon are
+included. Every form has color, `-mono`, and `-reverse` (dark background)
+variants. `\starlogo[32pt]` inserts the emblem; `\starwordmark` inserts the
+wordmark. Both respect anonymous and monochrome modes.
 
-Use the PDF assets in LaTeX, SVG for editing, and transparent PNG for
-slides or web assets. The STAR files have no font dependencies. The
-`star-mark.*` files contain only the emblem, and `star-lockup.*` contain
-the compact STAR LAB wordmark. `star-signature.*` adds the full lab name
-for larger uses. `star-mark-small.*` opens the fine channels at 16-32 pixels;
-ready-to-use PNG icons and a multi-resolution favicon are included.
-All vector forms include color, monochrome, and
-white/cyan reverse variants. `\starlogo[32pt]` inserts the emblem;
-`\starwordmark` inserts the wordmark. Both respect anonymous and
-monochrome modes. `output/STAR-logo-preview.png` previews the logo on white.
-`output/STAR-identity-preview.png` shows the full signature, small-size marks,
-monochrome treatment, and reverse artwork together.
+To regenerate the logo files, run `python3 scripts/make-logo.py assets`
+(requires `rsvg-convert` and `pdftocairo`).
 
 ### University and partner institution logos
 
@@ -291,8 +283,8 @@ for Overleaf editing.
 
 The helper retains `compile.log`, TeX logs, and bibliography intermediates
 under `build/`, and copies final PDFs into `output/`. To regenerate the
-logo, run `python3 scripts/make-logo.py` with `rsvg-convert`, `pdftocairo`,
-and Arial installed. The final SVGs and PDFs contain vector outlines, so
+logo, run `python3 scripts/make-logo.py assets` with `rsvg-convert`,
+`pdftocairo`, and Arial installed. The final SVGs and PDFs contain vector outlines, so
 their use does not require those tools or fonts.
 Ordinary manuscript builds use the included PDFs and do not run that script.
 To regenerate the upload packages, run `python3 scripts/package.py`.

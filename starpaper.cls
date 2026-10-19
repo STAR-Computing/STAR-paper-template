@@ -58,8 +58,8 @@
 \fi
 
 \RequirePackage{xcolor}
-\definecolor{STARPrimary}{HTML}{25356B}
-\definecolor{STARAccent}{HTML}{00A8C6}
+\definecolor{STARPrimary}{HTML}{0A2463}
+\definecolor{STARAccent}{HTML}{82C3F0}
 \definecolor{STARInk}{HTML}{222A3A}
 \definecolor{STARMuted}{HTML}{5C6577}
 \definecolor{STARLight}{HTML}{F1F5FA}
