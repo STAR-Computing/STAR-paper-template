@@ -208,9 +208,9 @@
 \newcommand{\starwordmark}{%
   \ifstaranonymous\else
       \ifstarmonochrome
-        \includegraphics[height=40pt,width=\linewidth,keepaspectratio]{assets/star-lockup-mono.pdf}%
+        \includegraphics[height=64pt,width=\linewidth,keepaspectratio]{assets/star-lockup-mono.pdf}%
       \else
-        \includegraphics[height=40pt,width=\linewidth,keepaspectratio]{assets/star-lockup.pdf}%
+        \includegraphics[height=64pt,width=\linewidth,keepaspectratio]{assets/star-lockup.pdf}%
       \fi
   \fi}
 \newcommand{\star@externalgraphic}[3]{%
@@ -234,12 +234,12 @@
   }{\star@externalgraphic{\star@partnerlogo}{\star@partnermono}{30pt}}%
   \fi\fi}
 \newcommand{\star@brandrow}{%
-  \noindent\begin{minipage}[c]{.30\textwidth}\starwordmark\end{minipage}%
-  \hfill{\color{STARLine}\raisebox{-14pt}{\rule{.4pt}{32pt}}}\hfill
-  \begin{minipage}[c]{.33\textwidth}\centering\stargmumark\end{minipage}%
+  \noindent\begin{minipage}[c]{.47\textwidth}\starwordmark\end{minipage}%
+  \hfill{\color{STARLine}\raisebox{-22pt}{\rule{.4pt}{48pt}}}\hfill
+  \begin{minipage}[c]{.25\textwidth}\centering\stargmumark\end{minipage}%
   \ifstarpartner
-    \hfill{\color{STARLine}\raisebox{-14pt}{\rule{.4pt}{32pt}}}\hfill
-    \begin{minipage}[c]{.27\textwidth}\centering\starpartnermark\end{minipage}%
+    \hfill{\color{STARLine}\raisebox{-22pt}{\rule{.4pt}{48pt}}}\hfill
+    \begin{minipage}[c]{.22\textwidth}\centering\starpartnermark\end{minipage}%
   \fi\par}
 
 \setlength{\parindent}{1em}
