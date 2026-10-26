@@ -99,3 +99,23 @@ IDENTITY REFINEMENT (2026-10-18, v1.4)
   verified; favicon resolutions and PNG transparency validated.
   Original example archives retain their recorded SHA-256 checksums.
   Current validation: build/identity-refinement/qa/checks.json.
+
+SHIELD-AND-ORBIT LOGO (2026-10-26, v3.0)
+  Replaced the faceted Polaris with the lab's chosen artwork: a four-point
+  star with a lavender neural half and a light-blue code half, a shield and
+  glowing purple sparkle at the center, and an aqua orbit. STAR LAB is set in
+  Avenir Next, outlined. All star-* assets were regenerated from the master in
+  the lab's logo/ folder; the mark is embedded as a high-resolution image in
+  the PDF and SVG files. scripts/make-logo.py (the previous design's
+  generator) was removed. LaTeX colors now follow the logo:
+  STARPrimary #1A1650 (indigo), STARAccent #0A8FE6 (aqua).
+  Compiler: Tectonic, cached resources only.
+  STAR-single-column.pdf: 5 pages; STAR-double-column.pdf: 3 pages
+  (unchanged from the previous commit).
+  Logs: no overfull or underfull boxes, no undefined references; all fonts
+  embedded. Engine notices: absolute macOS font paths, an invalid UTF-8 byte
+  in algorithm.sty line 11, and logo PDFs at version 1.7 above the 1.5 output
+  setting (the previous logo PDFs were also 1.7). None affect the output.
+  First pages rendered and the mastheads inspected.
+  check-modes.py: anonymous and monochrome checks pass in both layouts.
+  Overleaf ZIPs, logo-asset ZIP, and the three previews regenerated.

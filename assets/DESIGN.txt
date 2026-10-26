@@ -77,4 +77,20 @@ Polaris identity (v2.0, October 2026):
   carries a neural network of round neurons for AI. The small-use mark drops
   both symbols for 16-32 pixel icons. The custom STAR LAB lettering is kept.
   Master files and generator: the lab's logo/ folder (scripts/make-logo.py
-  here is an identical copy). Prior S-and-star artwork is in git history.
+  here was an identical copy until v3.0). Prior S-and-star artwork is in git
+  history.
+
+Shield-and-orbit identity (v3.0, October 2026):
+  Replaced the faceted Polaris with the artwork the lab chose: a four-point
+  Polaris split into a lavender neural half (a small node graph) and a
+  light-blue symbolic half (a code glyph), outlined in indigo (#1A1650).
+  A shield holding a glowing purple sparkle sits at the center; an aqua
+  orbit (#0A8FE6 to #86F0FC) with three chevrons sweeps around the star.
+  The wordmark is STAR in bold indigo and LAB in aqua (Avenir Next, outlined).
+  The master is raster artwork; PDF and SVG files embed it at high
+  resolution. The reverse forms repaint the outline in a light tint for dark
+  grounds; the mono forms are grayscale.
+  LaTeX colors follow the logo: STARPrimary #1A1650, STARAccent #0A8FE6.
+  Master files and generator: the lab's logo/ folder (logo-harmony.png and
+  make-logo.py). scripts/make-logo.py was removed from this template, since
+  it rebuilt the previous design. Prior Polaris artwork is in git history.

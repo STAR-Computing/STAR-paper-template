@@ -58,8 +58,8 @@
 \fi
 
 \RequirePackage{xcolor}
-\definecolor{STARPrimary}{HTML}{0A2463}
-\definecolor{STARAccent}{HTML}{82C3F0}
+\definecolor{STARPrimary}{HTML}{1A1650}
+\definecolor{STARAccent}{HTML}{0A8FE6}
 \definecolor{STARInk}{HTML}{222A3A}
 \definecolor{STARMuted}{HTML}{5C6577}
 \definecolor{STARLight}{HTML}{F1F5FA}
@@ -208,9 +208,9 @@
 \newcommand{\starwordmark}{%
   \ifstaranonymous\else
       \ifstarmonochrome
-        \includegraphics[height=30pt,width=\linewidth,keepaspectratio]{assets/star-lockup-mono.pdf}%
+        \includegraphics[height=40pt,width=\linewidth,keepaspectratio]{assets/star-lockup-mono.pdf}%
       \else
-        \includegraphics[height=30pt,width=\linewidth,keepaspectratio]{assets/star-lockup.pdf}%
+        \includegraphics[height=40pt,width=\linewidth,keepaspectratio]{assets/star-lockup.pdf}%
       \fi
   \fi}
 \newcommand{\star@externalgraphic}[3]{%
@@ -235,10 +235,10 @@
   \fi\fi}
 \newcommand{\star@brandrow}{%
   \noindent\begin{minipage}[c]{.30\textwidth}\starwordmark\end{minipage}%
-  \hfill{\color{STARLine}\raisebox{-10pt}{\rule{.4pt}{25pt}}}\hfill
+  \hfill{\color{STARLine}\raisebox{-14pt}{\rule{.4pt}{32pt}}}\hfill
   \begin{minipage}[c]{.33\textwidth}\centering\stargmumark\end{minipage}%
   \ifstarpartner
-    \hfill{\color{STARLine}\raisebox{-10pt}{\rule{.4pt}{25pt}}}\hfill
+    \hfill{\color{STARLine}\raisebox{-14pt}{\rule{.4pt}{32pt}}}\hfill
     \begin{minipage}[c]{.27\textwidth}\centering\starpartnermark\end{minipage}%
   \fi\par}
 

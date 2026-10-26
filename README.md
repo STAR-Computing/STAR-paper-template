@@ -48,18 +48,17 @@ references.bib               Shared bibliography with two real sample entries
 sections/single/             Single-column example manuscript
 sections/double/             Double-column example manuscript
 figures/pipeline.tex          Editable vector architecture figure
-assets/star-mark.*           Color vector logo and transparent PNG
-assets/star-mark-mono.*      Grayscale vector logo and transparent PNG
-assets/star-lockup.*         Custom-drawn STAR LAB wordmark and emblem
-assets/star-mark-small.*     Small-use emblem with more open channels
+assets/star-mark.*           Color logo: PDF, SVG, and transparent PNG
+assets/star-mark-mono.*      Grayscale logo
+assets/star-lockup.*         Logo with the STAR LAB wordmark
+assets/star-mark-small.*     The logo in light files for icons and web headers
 assets/star-signature.*      Full-name signature for larger uses
 assets/star-icon-*.png       Transparent icons from 16 to 256 pixels
 assets/star-favicon.ico      Multi-resolution favicon
 assets/institutions/         Optional official GMU artwork and provenance
-assets/*-reverse.*           White-and-cyan versions for dark backgrounds
+assets/*-reverse.*           Light-outline versions for dark backgrounds
 scripts/build.py             Local compilation helper
 scripts/build-demos.py       Compile copies of the supplied example drafts
-scripts/make-logo.py         Rebuild the vector and raster logo assets
 scripts/package.py           Rebuild Overleaf upload ZIPs
 output/                      Compiled previews and upload ZIPs
 demo/                        Full example drafts typeset with STAR
@@ -196,30 +195,32 @@ original colors unless a monochrome image is explicitly supplied.
 
 ## Logo and identity
 
-The STAR mark is a tall, faceted **Polaris** (the North Star, a fixed point
-people trust to navigate by), split down the middle. The **navy half** carries
-a program graph of square modules with right-angle wiring (software systems);
-the **sky-blue half** carries a neural network of round neurons (AI). The
-**STAR LAB lettering is drawn as custom vector paths**, and the A has a
-star-shaped counter.
+The STAR mark is a four-point **Polaris** (the North Star, a fixed point
+people trust to navigate by), split down the middle. The **lavender half**
+carries a small neural network (learning); the **light-blue half** carries a
+code glyph (programs and proofs). A **shield** holding a glowing purple
+sparkle sits at the center, and an **aqua orbit** with three chevrons sweeps
+around the star. The wordmark is STAR in bold indigo and LAB in aqua.
 
-The lab palette is `#0A2463` (royal navy) and `#82C3F0` (sky blue).
+The lab palette is `#1A1650` (indigo) and `#0A8FE6` (aqua).
 `STARPrimary` and `STARAccent` are the LaTeX color names; `STARForest` and
-`STARGold` remain aliases so older figures still work. Sky blue is used for
+`STARGold` remain aliases so older figures still work. Aqua is used for
 rules and accents, not body text.
 
 The master copy of every logo file lives in the lab's `logo/` folder; this
 template keeps identical copies in `assets/` so it stays self-contained.
-Use the PDF assets in LaTeX, SVG for editing, and transparent PNG for slides
-or the web. `star-mark.*` is the emblem, `star-lockup.*` adds the STAR LAB
-wordmark, and `star-signature.*` adds the full lab name. `star-mark-small.*`
-drops the symbols for 16–32 pixel icons; PNG icons and a favicon are
-included. Every form has color, `-mono`, and `-reverse` (dark background)
-variants. `\starlogo[32pt]` inserts the emblem; `\starwordmark` inserts the
+Use the PDF assets in LaTeX and transparent PNG or SVG for slides and the
+web. The mark is embedded in the PDF and SVG files as a high-resolution
+image; all lettering is outlined, so no fonts are needed. `star-mark.*` is
+the emblem, `star-lockup.*` adds the STAR LAB wordmark, and
+`star-signature.*` adds the full lab name. `star-mark-small.*` is the same
+emblem in smaller files for icons and web headers; PNG icons and a favicon
+are included. Every form has color, `-mono`, and `-reverse` (dark
+background) variants. `\starlogo[32pt]` inserts the emblem; `\starwordmark` inserts the
 wordmark. Both respect anonymous and monochrome modes.
 
-To regenerate the logo files, run `python3 scripts/make-logo.py assets`
-(requires `rsvg-convert` and `pdftocairo`).
+To regenerate the logo files, run `python3 make-logo.py` in the lab's `logo/`
+folder, which holds the master artwork, and copy the `star-*` files here.
 
 ### University and partner institution logos
 
