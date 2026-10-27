@@ -263,7 +263,7 @@
 \setcounter{bottomnumber}{2}
 \setcounter{totalnumber}{5}
 \captionsetup{font=small,labelfont={bf,sf,color=STARForest},
-  labelsep=period,skip=6pt,singlelinecheck=false}
+  labelsep=period,skip=6pt}
 \captionsetup[table]{position=top}
 \titleformat{\section}{\sffamily\bfseries\large\color{STARForest}}
   {\thesection}{0.65em}{}
