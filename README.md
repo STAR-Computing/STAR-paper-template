@@ -112,6 +112,11 @@ to map multiple authors to affiliations, as shown in the examples.
 shows **System Trustworthiness and AI Reliability**. `\starlabname` provides
 the full lab name for reuse in the source. Anonymous mode omits the lab name
 from the masthead and PDF metadata.
+Add `\starorcid{0000-0002-1825-0097}` after an author's name (and
+affiliation superscript) to print an ORCID iD badge linked to that profile.
+An empty `\starorcid{}` prints an unlinked placeholder badge; omit the
+command for authors without an ORCID iD. Badges are excluded from PDF
+metadata and hidden with the rest of the author block in anonymous mode.
 The title block supports explicit line breaks. Author-footnote commands
 such as `\thanks` are not part of this class's author interface; put equal
 contribution notes in `\staraffiliation` or below the author information.

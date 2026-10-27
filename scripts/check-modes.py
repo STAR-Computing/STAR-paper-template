@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = r"""
 \documentclass[OPTIONS]{starpaper}
 \title{A Neutral Research Manuscript}
-\author{IDENTITYTOKEN}
+\author{IDENTITYTOKEN\starorcid{0000-0002-1825-0097}}
 \staraffiliation{AFFILIATIONTOKEN}
 \staremails{EMAILTOKEN}
 \startrack{TRACKTOKEN}
@@ -79,7 +79,7 @@ def main():
                                   "Project page", "GitHub", "Dataset",
                                   "GEORGE MASON", "UNIVERSITY",
                                   "System Trustworthiness", "AI Reliability",
-                                  "SYSTEM TRUSTWORTHINESS", "AI RELIABILITY"]:
+                                  "SYSTEM TRUSTWORTHINESS", "AI RELIABILITY", "orcid.org"]:
                         assert token not in text + metadata + urls, f"Identity leak: {token}"
                     assert "Anonymous authors" in text + metadata
                     assert "2468" in text
@@ -97,6 +97,7 @@ def main():
                     assert "SYSTEM TRUSTWORTHINESS AND AI RELIABILITY" in text
                     assert "System Trustworthiness and AI Reliability" in metadata
                     assert "assets/institutions/gmu-logo.png" not in log
+                    assert "https://orcid.org/0000-0002-1825-0097" in urls
                     for url in ["https://example.org/PROJECTTOKEN",
                                 "https://example.org/GITHUBTOKEN/repo_name",
                                 "https://example.org/DATASETTOKEN/data_v1"]:

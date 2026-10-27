@@ -64,7 +64,9 @@
 \definecolor{STARMuted}{HTML}{5C6577}
 \definecolor{STARLight}{HTML}{F1F5FA}
 \definecolor{STARLine}{HTML}{D3DBE7}
+\definecolor{STARORCID}{HTML}{A6CE39}
 \ifstarmonochrome
+  \colorlet{STARORCID}{black!55}
   \colorlet{STARPrimary}{black}
   \colorlet{STARAccent}{black!60}
   \colorlet{STARInk}{black}
@@ -102,7 +104,8 @@
   pdfdisplaydoctitle=true,pdfborder={0 0 0}}
 \urlstyle{tt}
 \pdfstringdefDisableCommands{\def\\{ }\def\texttt#1{#1}\def\thanks#1{}%
-  \def\textsuperscript#1{}\def\quad{ }\def\qquad{ }\def\and{, }}
+  \def\textsuperscript#1{}\def\quad{ }\def\qquad{ }\def\and{, }%
+  \def\starorcid#1{}}
 
 % All identifying metadata is controlled here so anonymous mode is consistent.
 \newcommand{\starlabname}{System Trustworthiness and AI Reliability}
@@ -180,6 +183,15 @@
       \fi
     \end{minipage}\par
   }{}\fi}
+% ORCID iD badge placed after an author's name. An empty ID prints an unlinked
+% placeholder badge; omitting the command omits the badge.
+\newcommand{\star@orcidbadge}{%
+  \tikz[x=1pt,y=1pt,baseline=0pt]{%
+    \fill[STARORCID] (3.8,3.8) circle (3.8);
+    \node[text=white,inner sep=0pt,font=\sffamily\bfseries\fontsize{4.6}{4.6}\selectfont]
+      at (3.8,3.75) {iD};}}
+\newcommand{\starorcid}[1]{\hspace{1.5pt}%
+  \ifblank{#1}{\star@orcidbadge}{\href{https://orcid.org/#1}{\star@orcidbadge}}}
 % Third masthead slot: a placeholder until a collaborator's artwork is supplied.
 \newif\ifstarpartner
 \starpartnertrue
