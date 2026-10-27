@@ -168,7 +168,7 @@
 \newcommand{\starresources}{\ifstaranonymous\else
   \ifboolexpr{bool {starproject} or bool {stargithub} or bool {stardataset}}{%
     \par\vspace{6pt}\noindent\begin{minipage}{\linewidth}\centering
-    \sffamily\fontsize{8.5}{11.5}\selectfont\color{STARPrimary}
+    \sffamily\fontsize{10}{13.5}\selectfont\color{STARPrimary}
       \ifstarproject
         \star@resourcerow{0}{Project page}{\star@projecturl}{\star@projectlabel}{[project-page-url]}%
       \fi
@@ -391,10 +391,10 @@
   {\sffamily\bfseries\small\color{STARForest}ABSTRACT\par}\vspace{4pt}
   \small\ignorespaces
 }{%
-  \par\ifdefempty{\star@keywords}{}{%
+  \par\starresources\ifdefempty{\star@keywords}{}{%
     \vspace{6pt}{\sffamily\fontsize{8}{10}\selectfont
       \textbf{Keywords}\quad\star@keywords\par}
-  }\endgroup\starresources\vspace{8pt}}
+  }\endgroup\vspace{8pt}}
 \newcommand{\starbibliography}[1]{\bibliographystyle{unsrtnat}\bibliography{#1}}
 \setlength{\bibsep}{4pt}
 \renewcommand{\bibfont}{\small}
