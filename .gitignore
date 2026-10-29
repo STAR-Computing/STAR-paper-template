@@ -19,3 +19,7 @@ example/
 demo/
 other_example/
 .build/
+
+# Concrete manuscripts, letters, imported sources, and their outputs.
+/projects/
+__pycache__/

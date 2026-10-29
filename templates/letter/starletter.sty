@@ -1,0 +1,58 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{starletter}[2026/10/29 STAR Lab recommendation letters]
+\RequirePackage[letterpaper,left=0.85in,right=0.85in,top=0.65in,bottom=0.65in]{geometry}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{mathptmx}
+\RequirePackage{graphicx}
+\RequirePackage{iftex}
+% Match the supplied logo's PDF version in both supported engines.
+\ifPDFTeX\pdfminorversion=7\fi
+\ifXeTeX\AtBeginDvi{\special{pdf:minorversion 7}}\fi
+\RequirePackage[hidelinks]{hyperref}
+\urlstyle{same}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{8pt}
+\AtBeginDocument{\fontsize{11}{12.5}\selectfont}
+\newcommand{\SenderName}{Simin Chen}
+\newcommand{\SenderTitle}{Assistant Professor of Computer Science}
+\newcommand{\SenderInstitution}{George Mason University}
+\newcommand{\SenderEmail}{schen68@gmu.edu}
+\newcommand{\SenderWebsite}{https://siminchen.site/}
+% Replace with any PDF, PNG, or JPEG logo; set to {} to omit the logo.
+\newcommand{\LabLogo}{assets/star-lockup.pdf}
+\newcommand{\LetterDate}{\today}
+\newcommand{\LetterSubject}{Recommendation for [Candidate Name]}
+\newcommand{\LetterPosition}{[Position] | [Institution]}
+\newcommand{\LetterSalutation}{Dear Members of the Selection Committee,}
+\newcommand{\MakeLetterHeading}{%
+  \hypersetup{pdftitle={\LetterSubject},pdfauthor={\SenderName}}%
+  \noindent\begin{minipage}[c]{0.68\textwidth}
+    {\fontsize{15}{17}\selectfont\bfseries\MakeUppercase{\SenderName}\par}
+    \vspace{2pt}
+    \SenderTitle\\
+    \SenderInstitution\\
+    \href{mailto:\SenderEmail}{\SenderEmail} | \url{\SenderWebsite}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.29\textwidth}
+    \raggedleft
+    \ifx\LabLogo\empty\else
+      \includegraphics[width=\linewidth,height=0.65in,keepaspectratio]{\LabLogo}%
+    \fi
+  \end{minipage}\par
+  \vspace{5pt}
+  \LetterDate\par
+  {\bfseries\LetterSubject}\par
+  \vspace{-5pt}
+  \LetterPosition\par
+  \LetterSalutation\par
+}
+\newcommand{\MakeLetterClosing}{%
+  \par\begin{minipage}{\textwidth}
+    Sincerely,\par\vspace{12pt}
+    \textbf{\SenderName}\\
+    \SenderTitle\\
+    \SenderInstitution\\
+    \href{mailto:\SenderEmail}{\SenderEmail}
+  \end{minipage}
+}

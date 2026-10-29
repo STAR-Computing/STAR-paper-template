@@ -11,6 +11,7 @@ import subprocess
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
+PAPER = ROOT / "templates" / "paper" if (ROOT / "templates" / "paper").is_dir() else ROOT
 FIXTURE = r"""
 \documentclass[OPTIONS]{starpaper}
 \title{A Neutral Research Manuscript}
@@ -52,7 +53,7 @@ def main():
             out = ROOT / "build" / "modes" / f"{layout}-{mode}"
             out.mkdir(parents=True, exist_ok=True)
             with tempfile.NamedTemporaryFile(mode="w", suffix=".tex",
-                                             prefix=".star-check-", dir=ROOT,
+                                             prefix=".star-check-", dir=PAPER,
                                              delete=False) as f:
                 f.write(FIXTURE.replace("OPTIONS", f"{layout},{mode}"))
                 source = Path(f.name)
@@ -61,7 +62,7 @@ def main():
                 if args.bundle:
                     cmd += ["--bundle", args.bundle]
                 cmd += [str(source)]
-                run = subprocess.run(cmd, cwd=ROOT, text=True,
+                run = subprocess.run(cmd, cwd=PAPER, text=True,
                                      stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                 (out / "compile.log").write_text(run.stdout)
                 if run.returncode:

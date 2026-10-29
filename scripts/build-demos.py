@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Apply STAR to copies of both example manuscripts and compile into demo/.
+"""Apply STAR to copies of both example manuscripts and compile into projects/papers/demos/.
 
-Original ZIPs are read only. Working sources and logs live under build/demos/.
+Original ZIPs are read only. Working sources and logs live under projects/papers/working/.
 Usage: python3 scripts/build-demos.py --engine tectonic [--bundle PATH]
 """
 import argparse
@@ -68,9 +68,9 @@ def strip_comments(text):
 
 def prepare(kind):
     is_colm = kind == "colm"
-    archive = ROOT / "example" / ("COLM26_SWExploit_CameraReady (1).zip" if is_colm
+    archive = ROOT / "projects" / "papers" / "archives" / ("COLM26_SWExploit_CameraReady (1).zip" if is_colm
                                   else "SP26_DLFloating_CameraReady (6).zip")
-    target = ROOT / "build" / "demos" / kind
+    target = ROOT / "projects" / "papers" / "working" / kind
     target.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(archive) as z:
         for name in z.namelist():
@@ -85,7 +85,7 @@ def prepare(kind):
     for p in target.rglob("*.sty"):
         if p.name in ["natbib.sty", "fancyhdr.sty", "algorithm.sty", "algorithmic.sty"]:
             p.rename(p.with_suffix(".sty.original"))
-    cls = (ROOT / "starpaper.cls").read_text()
+    cls = (ROOT / "templates" / "paper" / "starpaper.cls").read_text()
     if not is_colm:
         # This manuscript uses algorithm2e rather than algorithm/algpseudocode.
         cls = cls.replace(r"\RequirePackage{algorithm}", "")
@@ -94,9 +94,9 @@ def prepare(kind):
         cls = re.sub(r"(?m)^\\algrenewcommand[^\n]*\n", "", cls)
     (target / "starpaper.cls").write_text(cls)
     (target / "assets").mkdir(exist_ok=True)
-    for p in (ROOT / "assets").rglob("*"):
+    for p in (ROOT / "templates" / "paper" / "assets").rglob("*"):
         if p.is_file() and p.suffix.lower() in [".pdf", ".png", ".jpg", ".jpeg"]:
-            destination = target / "assets" / p.relative_to(ROOT / "assets")
+            destination = target / "assets" / p.relative_to(ROOT / "templates" / "paper" / "assets")
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(p, destination)
 
@@ -229,10 +229,10 @@ def main():
         print(run.stdout[-5000:], flush=True)
         if run.returncode:
             raise SystemExit(run.returncode)
-        (ROOT / "demo").mkdir(exist_ok=True)
+        (ROOT / "projects" / "papers" / "demos").mkdir(exist_ok=True)
         name = "STAR-COLM-SWExploit-single-column.pdf" if kind == "colm" else "STAR-SP-DLFloating-double-column.pdf"
-        shutil.copy2(target / "main.pdf", ROOT / "demo" / name)
-        print(f"Created demo/{name}", flush=True)
+        shutil.copy2(target / "main.pdf", ROOT / "projects" / "papers" / "demos" / name)
+        print(f"Created projects/papers/demos/{name}", flush=True)
 
 if __name__ == "__main__":
     main()

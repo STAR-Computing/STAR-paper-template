@@ -12,6 +12,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+PAPER = ROOT / "templates" / "paper" if (ROOT / "templates" / "paper").is_dir() else ROOT
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -25,7 +26,7 @@ def main():
         sys.exit("Install a TeX distribution with latexmk, or install Tectonic.")
     output = ROOT / "output"
     output.mkdir(exist_ok=True)
-    sources = [p for p in [ROOT / "main.tex", ROOT / "main-double.tex"] if p.exists()]
+    sources = [p for p in [PAPER / "main.tex", PAPER / "main-double.tex"] if p.exists()]
     for path in sources:
         source = path.name
         label = "double-column" if "[twocolumn" in path.read_text() else "single-column"
@@ -43,7 +44,7 @@ def main():
                 cmd.extend(["--bundle", args.bundle])
             cmd.append(source)
         print(f"Building {label} with {Path(engine).name} ...", flush=True)
-        run = subprocess.run(cmd, cwd=ROOT, text=True, stdout=subprocess.PIPE,
+        run = subprocess.run(cmd, cwd=PAPER, text=True, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         (target / "compile.log").write_text(run.stdout)
         print(run.stdout, end="")
